@@ -11,7 +11,7 @@ class UsuariosController extends Controller
     {
         $usuario = new Usuarios();
         $usuario->nome = $request->nome;
-        $usuario->usuario = $request->usuario;
+        $usuario-> matricula = $request->usuario;
         $usuario->capacidade = $request->capacidade; 
         $usuario->save();
 
