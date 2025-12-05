@@ -13,4 +13,14 @@ class Reservas extends Model
         'data_hora',
         'inicio_fim'
     ];
+
+    public function sala()
+    {
+        return $this->belongsTo(Salas::class);
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuarios::class);
+    }
 }
