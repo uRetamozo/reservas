@@ -16,10 +16,11 @@ class UsuariosController extends Controller
         $usuario->save();
 
         return redirect('/');
- 
+    }
 
+    public function reservarSala(Request $request)
+    {
+        
     }
 }
 
-
-/**: nome, matrícula, curso. */
