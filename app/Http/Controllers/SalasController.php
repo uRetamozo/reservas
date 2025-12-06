@@ -9,13 +9,14 @@ class SalasController extends Controller
 {
     public function salvarSalas(Request $request)
     {
-        $Salas = new Salas();
-        $Salas->nome = $request->nome;
-        $Salas->status = $request->status;
-        $Salas->capacidade = $request->capacidade; 
-        $Salas->save();
 
-        return redirect('/');
+        if ($sala->reservas()->count() > 0) {
+            return response()->json(['erro' => 'Não é possível excluir sala com reservas.'], 400);
+        }
+
+        $sala->delete();
+
+        return response()->json(['mensagem' => 'Sala excluída com sucesso.']);
  
 
     }

@@ -10,8 +10,8 @@ class Reservas extends Model
     protected $fillable = [
         'salas_id',
         'usuarios_id',
-        'data_hora',
-        'inicio_fim'
+        'data_hora_inicio',
+        'data_hora_fim'
     ];
 
     public function sala()
