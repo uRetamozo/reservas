@@ -12,6 +12,9 @@ class Usuarios extends Model
         'matricula',
         'curso'
     ];
-}
 
-/**: nome, matrícula, curso. */
+    public function reservas()
+    {
+        return $this->hasMany(Reservas::class);
+    }
+}

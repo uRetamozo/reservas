@@ -12,4 +12,8 @@ class Salas extends Model
         'capacidade',
         'status'
     ];
+    public function reservas()
+    {
+        return $this->hasMany(Reservas::class);
+    }
 }
