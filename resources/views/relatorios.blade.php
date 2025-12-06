@@ -17,8 +17,8 @@
   </section>
 
   <section id="menu" class="container" >
-    <div class="row">
-    <nav class="navbar navbar-expand-lg" style="background-color: #0d0032ff;">
+    <div class="row" style="background-color: #0d0032ff;">
+    <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <a class="navbar-brand" href="#"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,9 +39,8 @@
               <a class="nav-link" href="{{ route('salas') }}" style="color:#ffffff">Ver Salas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('') }}" style="color:#ffffff">Salas reservadas</a>
+              <a class="nav-link" href="{{ route('relatorios') }}" style="color:#ffffff">Salas reservadas</a>
             </li>
-            
           </ul>
         </div>
       </div>
@@ -49,29 +48,29 @@
     </div>
   </section>       
        <div class="col-8 offset-2">
-    <div class="card " >
-      <div class="card-header text-bg-success">
+    <div class="card">
+      <div class="card-header"  style="background-color: #320436ff; height:100px; padding-top:40px; color: #ffffff"  >
       <h5 class="card-title ">Salas Reservadas</h5>
       </div>
-      <div class="card-body">
-      <table class="table">
+      <div class="card-body"  >
+      <table class="table" >
         <thead>
           <tr>
-            <th scope="col"></th>
-            <th scope="col">Carga Horária</th>
-            <th scope="col">Periodo</th>
-            <th scope="col">Professor</th>
-            <th scope="col">Departamento</th>
+            <th scope="col">Salas</th>
+            <th scope="col">Usuários</th>
+            <th scope="col">Data</th>
+            <th scope="col">Inicio e Fim</th>
+        
           </tr>
         </thead>
         <tbody>
-          @foreach ($consultas as $chave)
+          @foreach ($reservas as $chave)
           <tr>
-            <th scope="row">{{ $chave->nome  }}</th>
-            <td>{{ $chave->carga_horaria  }}</td>
-            <td>{{ $chave->periodo }}</td>
-            <td>{{ $chave->docente->nome }}</td>
-            <td>{{ $chave->docente->departamento }}</td>
+            <th scope="row">
+                {{ $chave -> sala_id  }}</th>
+            <td>{{ $chave -> usuario_id  }}</td>
+            <td>{{ $chave -> data_hora_inicio }}</td>
+            <td>{{ $chave -> data_hora_fim }}</td>
           </tr>
           @endforeach
         </tbody>
@@ -92,3 +91,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
+

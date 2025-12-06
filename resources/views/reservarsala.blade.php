@@ -36,10 +36,7 @@
               <a class="nav-link" href="{{ route('reservar') }}" style="color:#ffffff">Reservar Salas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('salas') }}" style="color:#ffffff">Ver Salas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('') }}" style="color:#ffffff">Salas reservadas</a>
+              <a class="nav-link" href="{{ route('relatorios') }}" style="color:#ffffff">Salas reservadas</a>
             </li>
             
           </ul>
