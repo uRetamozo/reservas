@@ -1,16 +1,14 @@
 <?php
 
-use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('cadastrarusuario');
-});
+Route::view('/', 'cadastrarusuario')->name('home');
 
-Route::get('/cadastrar_usuario', [UsuariosController::class, ''])->name('cadastrar.usuarios');
+Route::view('/cadastrar_usuario', 'cadastrarusuario')->name('cadastrar.usuario');
 
-Route::get('/relatorios', [UsuariosController::class, ''])->name('relatorios');
+Route::view('/cadastrar_sala', 'cadastrarsalas')->name('cadastrar.sala');
 
-Route::get('/cadastrar_sala', [UsuariosController::class, ''])->name('cadastrar.salas');
+Route::view('/reservar_salas', 'reservarsala')->name('reservar.sala');
 
-Route::get('/reservar_salas', [UsuariosController::class, ''])->name('reservar');
+Route::view('/relatorios', 'relatorios')->name('relatorios');
+
