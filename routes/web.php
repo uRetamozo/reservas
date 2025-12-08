@@ -1,14 +1,21 @@
 <?php
 
+use App\Http\Controllers\ReservasController;
+use App\Http\Controllers\SalasController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsuariosController;
 
-Route::view('/', 'cadastrarusuario')->name('home');
+//usuarios
+Route::get('/', [UsuariosController::class, 'index'])->name('cadastrar.usuario');
+Route::post('/cadastrarusuario', [UsuariosController::class, 'salvarUsuarios'])->name('salvar.usuario');
 
-Route::view('/cadastrar_usuario', 'cadastrarusuario')->name('cadastrar.usuario');
+//Salas
+Route::get('/cadastrarsala', [SalasController::class, 'index'])->name('cadastrar.sala');
+Route::post('salvar', [SalasController::class, 'cadastrarSala'])->name('salvarsala');
 
-Route::view('/cadastrar_sala', 'cadastrarsalas')->name('cadastrar.sala');
+//Reservas
+Route::get('/reservarsalas', [ReservasController::class, 'index'])->name('reservar.sala');
 
-Route::view('/reservar_salas', 'reservarsala')->name('reservar.sala');
-
+//relatorios
 Route::view('/relatorios', 'relatorios')->name('relatorios');
 

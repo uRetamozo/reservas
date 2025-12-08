@@ -7,17 +7,17 @@ use App\Models\Salas;
 
 class SalasController extends Controller
 {
-    public function salvarSalas(Request $request)
-    {
+  public function index(){
+    return view('cadastrarsalas');
+  }
 
-        if ($sala->reservas()->count() > 0) {
-            return response()->json(['erro' => 'Não é possível excluir sala com reservas.'], 400);
-        }
+  public function cadastrarSala(Request $request){
+    $sala = new Salas();
+    $sala->nome=$request->nome;
+    $sala->capacidade = $request->capacidade;
+    $sala->status;
+    $sala->save();
 
-        $sala->delete();
-
-        return response()->json(['mensagem' => 'Sala excluída com sucesso.']);
- 
-
-    }
+    return redirect('/reservarsalas');
+  }
 }

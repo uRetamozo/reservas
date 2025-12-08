@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\Reservas; 
+use app\Models\Reservas;
+use app\Models\Salas;
+
 
 class ReservasController extends Controller
 {
+
+  public function index(){
+    return view('reservarsala');
+  }
+
 
     public function store(Request $request)
     {
@@ -17,13 +24,13 @@ class ReservasController extends Controller
             'fim' => 'required|date|after:inicio'
         ]);
 
-        $sala = Sala::findOrFail($request->sala_id);
+        $sala = Salas::findOrFail($request->sala_id);
 
         if ($sala->status !== 'disponivel') {
             return response()->json(['erro' => 'Sala ocupada!'], 400);
         }
 
-        $conflito = Reserva::where('sala_id', $sala->id)
+        $conflito = Reservas::where('sala_id', $sala->id)
             ->where(function ($q) use ($request) {
                 $q->whereBetween('inicio', [$request->inicio, $request->fim])
                   ->orWhereBetween('fim', [$request->inicio, $request->fim])
@@ -38,7 +45,7 @@ class ReservasController extends Controller
             return response()->json(['erro' => 'Já existe uma reserva nesse horário'], 400);
         }
 
-        $reserva = Reserva::create($request->all());
+        $reserva = Reservas::create($request->all());
 
         $sala->update(['status' => 'ocupada']);
 

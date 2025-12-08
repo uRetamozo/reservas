@@ -74,12 +74,12 @@
 
             <div class="card-body">
 
-                <form action="{{ route('cadastrar.sala') }}" method="POST">
+                <form action="{{ route('salvarsala') }}" method="POST">
                     @csrf
 
                     <div class="mb-3">
-                        <label for="salas" class="form-label">Nome da Sala</label>
-                        <input type="text" name="salas" id="salas" class="form-control">
+                        <label for="nome" class="form-label">Nome da Sala</label>
+                        <input type="text" name="nome" id="nome" class="form-control">
                     </div>
 
                     <div class="mb-3">

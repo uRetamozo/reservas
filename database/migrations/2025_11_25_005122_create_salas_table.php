@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->integer('capacidade');
-            $table->string('status');
+            $table->enum('status', ['disponivel', 'ocupado'])->default('disponivel');
             $table->timestamps();
         });
     }

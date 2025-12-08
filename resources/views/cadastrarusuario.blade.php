@@ -74,7 +74,7 @@
 
             <div class="card-body">
 
-                <form action="{{ route('cadastrar.usuario') }}" method="POST">
+                <form action="{{ route('salvar.usuario') }}" method="POST">
                     @csrf
 
                     <div class="mb-3">
@@ -88,8 +88,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="telefone" class="form-label">Telefone</label>
-                        <input type="number" name="telefone" class="form-control" id="telefone">
+                        <label for="curso" class="form-label">Curso</label>
+                        <input type="text" name="curso" class="form-control" id="curso">
                     </div>
 
                     <button type="submit" class="btn btn-success">Cadastrar</button>
