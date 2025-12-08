@@ -30,31 +30,30 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('cadastrar.usuario') }}" style="color:#ffffff">
-            Cadastrar Usuários
-        </a>
-    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cadastrar.usuario') }}" style="color:#ffffff">
+                                Cadastrar Usuários
+                            </a>
+                        </li>
 
-    <li class="nav-item">
-        <a class="nav-link active" href="{{ route('cadastrar.sala') }}" style="color:#ffffff">
-            Cadastrar Salas
-        </a>
-    </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('cadastrar.sala') }}" style="color:#ffffff">
+                                Cadastrar Salas
+                            </a>
+                        </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('reservar.sala') }}" style="color:#ffffff">
-            Reservar Salas
-        </a>
-    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('reservar.sala') }}" style="color:#ffffff">
+                                Reservar Salas
+                            </a>
+                        </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('relatorios') }}" style="color:#ffffff">
-            Salas Reservadas
-        </a>
-    </li>
-
-</ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('relatorios') }}" style="color:#ffffff">
+                                Salas Reservadas
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
@@ -73,6 +72,16 @@
             </div>
 
             <div class="card-body">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $erro)
+                                <li>{{ $erro }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <form action="{{ route('salvar.usuario') }}" method="POST">
                     @csrf
