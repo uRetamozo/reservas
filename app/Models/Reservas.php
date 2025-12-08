@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Reservas extends Model
 {
     protected $fillable = [
-        'salas_id',
-        'usuarios_id',
+        'sala_id',
+        'usuario_id',
         'data_hora_inicio',
         'data_hora_fim'
     ];

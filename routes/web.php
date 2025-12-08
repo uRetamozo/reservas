@@ -15,6 +15,8 @@ Route::post('salvar', [SalasController::class, 'cadastrarSala'])->name('salvarsa
 
 //Reservas
 Route::get('/reservarsalas', [ReservasController::class, 'index'])->name('reservar.sala');
+Route::post('/reservar/sala', [ReservasController::class, 'reservarSala'])->name('salvar.reserva');
+
 
 //relatorios
 Route::view('/relatorios', 'relatorios')->name('relatorios');

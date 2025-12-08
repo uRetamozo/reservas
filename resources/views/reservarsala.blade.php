@@ -29,33 +29,33 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
-                   <ul class="navbar-nav">
+                    <ul class="navbar-nav">
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('cadastrar.usuario') }}" style="color:#ffffff">
-            Cadastrar Usuários
-        </a>
-    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cadastrar.usuario') }}" style="color:#ffffff">
+                                Cadastrar Usuários
+                            </a>
+                        </li>
 
-    <li class="nav-item">
-        <a class="nav-link active" href="{{ route('cadastrar.sala') }}" style="color:#ffffff">
-            Cadastrar Salas
-        </a>
-    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cadastrar.sala') }}" style="color:#ffffff">
+                                Cadastrar Salas
+                            </a>
+                        </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('reservar.sala') }}" style="color:#ffffff">
-            Reservar Salas
-        </a>
-    </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('reservar.sala') }}" style="color:#ffffff">
+                                Reservar Salas
+                            </a>
+                        </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('relatorios') }}" style="color:#ffffff">
-            Salas Reservadas
-        </a>
-    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('relatorios') }}" style="color:#ffffff">
+                                Salas Reservadas
+                            </a>
+                        </li>
 
-</ul>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -73,34 +73,59 @@
 
             <div class="card-body">
 
-                <form action="{{ route('reservar.sala') }}" method="POST">
+                {{-- MENSAGENS DE ERRO --}}
+                @if(session('erro'))
+                    <div class="alert alert-danger">{{ session('erro') }}</div>
+                @endif
+
+                {{-- MENSAGEM DE SUCESSO --}}
+                @if(session('sucesso'))
+                    <div class="alert alert-success">{{ session('sucesso') }}</div>
+                @endif
+
+                <form action="{{ route('salvar.reserva') }}" method="POST">
                     @csrf
 
                     <!-- SALA -->
                     <div class="mb-3">
-                        <label for="sala" class="form-label">Selecione sua Sala</label>
-                        <select name="sala_id" id="sala" class="form-select">
+                        <label for="sala" class="form-label">Selecione a Sala</label>
+                        <select name="sala_id" id="sala" class="form-select" required>
                             <option selected disabled>Selecione</option>
-                           
+
+                            @foreach($salas as $sala)
+                                <option value="{{ $sala->id }}">
+                                    {{ $sala->nome }} (Capacidade: {{ $sala->capacidade }})
+                                </option>
+                            @endforeach
+
                         </select>
                     </div>
 
                     <!-- USUÁRIO -->
                     <div class="mb-3">
-                        <label for="usuario" class="form-label">Selecione seu Usuário</label>
-                        <select name="usuario_id" id="usuario" class="form-select">
+                        <label for="usuario" class="form-label">Selecione o Usuário</label>
+                        <select name="usuario_id" id="usuario" class="form-select" required>
                             <option selected disabled>Selecione</option>
-                           
+
+                            @foreach($usuarios as $usuario)
+                                <option value="{{ $usuario->id }}">
+                                    {{ $usuario->nome }} ({{ $usuario->matricula }})
+                                </option>
+                            @endforeach
+
                         </select>
                     </div>
 
-                    <!-- HORÁRIO -->
+                    <!-- INÍCIO -->
                     <div class="mb-3">
-                        <label for="horario" class="form-label">Selecione seu Horário</label>
-                        <select name="horario_id" id="horario" class="form-select">
-                            <option selected disabled>Selecione</option>
-                     
-                        </select>
+                        <label for="data_hora_inicio" class="form-label">Início da Reserva</label>
+                        <input type="datetime-local" id="data_hora_inicio" name="data_hora_inicio" class="form-control" required>
+                    </div>
+
+                    <!-- FIM -->
+                    <div class="mb-3">
+                        <label for="data_hora_fim" class="form-label">Fim da Reserva</label>
+                        <input type="datetime-local" id="data_hora_fim" name="data_hora_fim" class="form-control" required>
                     </div>
 
                     <button type="submit" class="btn btn-success">Reservar</button>

@@ -3,61 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\Reservas;
-use app\Models\Salas;
+use App\Models\Reservas;
+use App\Models\Salas;
+use App\Models\Usuarios;
+
 
 
 class ReservasController extends Controller
 {
 
   public function index(){
-    return view('reservarsala');
+    $salas = Salas::where('status','disponivel')->get();
+    $usuarios = Usuarios::all();
+
+    return view('reservarsala', compact('salas', 'usuarios'));
   }
 
+  public function reservarSala(Request $request)
+  {
+    $request->validate([
+      'sala_id' => 'required|exists:salas,id',
+      'usuario_id' => 'required|exists:usuarios,id',
+      'data_hora_inicio' => 'required|date',
+      'data_hora_fim' => 'required|date|after:data_hora_inicio',
+    ]);
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'sala_id' => 'required|exists:salas,id',
-            'usuario_id' => 'required|exists:usuarios,id',
-            'inicio' => 'required|date',
-            'fim' => 'required|date|after:inicio'
-        ]);
+    // Verificar conflito de horário
+    $conflito = Reservas::where('sala_id', $request->sala_id)
+      ->where(function ($query) use ($request) {
+        $query->whereBetween('data_hora_inicio', [$request->data_hora_inicio, $request->data_hora_fim])
+          ->orWhereBetween('data_hora_fim', [$request->data_hora_inicio, $request->data_hora_fim])
+          ->orWhere(function ($q) use ($request) {
+            $q->where('data_hora_inicio', '<=', $request->data_hora_inicio)
+              ->where('data_hora_fim', '>=', $request->data_hora_fim);
+          });
+      })
+      ->exists();
 
-        $sala = Salas::findOrFail($request->sala_id);
-
-        if ($sala->status !== 'disponivel') {
-            return response()->json(['erro' => 'Sala ocupada!'], 400);
-        }
-
-        $conflito = Reservas::where('sala_id', $sala->id)
-            ->where(function ($q) use ($request) {
-                $q->whereBetween('inicio', [$request->inicio, $request->fim])
-                  ->orWhereBetween('fim', [$request->inicio, $request->fim])
-                  ->orWhere(function ($q2) use ($request) {
-                      $q2->where('inicio', '<=', $request->inicio)
-                         ->where('fim', '>=', $request->fim);
-                  });
-            })
-            ->exists();
-
-        if ($conflito) {
-            return response()->json(['erro' => 'Já existe uma reserva nesse horário'], 400);
-        }
-
-        $reserva = Reservas::create($request->all());
-
-        $sala->update(['status' => 'ocupada']);
-
-        return response()->json($reserva);
+    if ($conflito) {
+      return back()->with('erro', 'A sala já está reservada neste horário.');
     }
 
-    public function relatorios(){
-        $reservas = Reservas::with('sala', 'usuario')->get();
-        return view('relatorios', compact('reservas'));
-    }
+    // Criar reserva
+    Reservas::create([
+      'sala_id'         => $request->sala_id,
+      'usuario_id'      => $request->usuario_id,
+      'data_hora_inicio' => $request->data_hora_inicio,
+      'data_hora_fim'    => $request->data_hora_fim,
+    ]);
 
+    // Atualizar status da sala
+    $sala = Salas::find($request->sala_id);
+    $sala->status = 'ocupado';
+    $sala->save();
 
-
-
+    return redirect('/')->with('sucesso', 'Reserva criada com sucesso!');
+  }
 }
