@@ -28,7 +28,9 @@ class ReservasController extends Controller
       'data_hora_fim' => 'required|date|after:data_hora_inicio',
     ]);
 
-    // Verificar conflito de horário
+    // Verificando os horarios para ver se ja existe uma reserva nesse horário
+    //a função busca o horario entre a data de inicia comparando com a data final e vice versa
+    //se existir hora reservada entre o horario selecionado, o $conflito é atualizado como true
     $conflito = Reservas::where('sala_id', $request->sala_id)
       ->where(function ($query) use ($request) {
         $query->whereBetween('data_hora_inicio', [$request->data_hora_inicio, $request->data_hora_fim])
@@ -39,9 +41,12 @@ class ReservasController extends Controller
           });
       })
       ->exists();
-
+    //se existe um conflito de horario o laravel retorna um erro que é jogado na view de reserva de salas
+    //informando que ja tem uma reserva
     if ($conflito) {
-      return back()->with('erro', 'A sala já está reservada neste horário.');
+        return back()
+            ->withErrors(['data_hora_inicio' => 'A sala já está reservada neste horário.'])
+            ->withInput();
     }
 
     // Criar reserva
@@ -52,11 +57,13 @@ class ReservasController extends Controller
       'data_hora_fim'    => $request->data_hora_fim,
     ]);
 
-    // Atualizar status da sala
-    $sala = Salas::find($request->sala_id);
-    $sala->status = 'ocupado';
-    $sala->save();
-
-    return redirect('/')->with('sucesso', 'Reserva criada com sucesso!');
+    return redirect('/relatorios');
   }
+
+  public function listarReservas(){
+    $reservas = Reservas::with(['sala', 'usuario'])
+        ->orderBy('data_hora_inicio', 'asc')
+        ->get();
+    return view('relatorios', compact('reservas'));
+}
 }

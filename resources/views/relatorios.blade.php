@@ -83,7 +83,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                      
+                    @forelse($reservas as $reserva)
+                        <tr>
+                            <td>{{ $reserva->sala->nome }}</td>
+                            <td>{{ $reserva->usuario->nome }}</td>
+                            <td>{{ date('d/m/Y H:i', strtotime($reserva->data_hora_inicio)) }}</td>
+                            <td>{{ date('d/m/Y H:i', strtotime($reserva->data_hora_fim)) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4">Nenhuma reserva encontrada.</td>
+                        </tr>
+                    @endforelse
                     </tbody>
                 </table>
 

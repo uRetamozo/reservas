@@ -73,14 +73,14 @@
 
             <div class="card-body">
 
-                {{-- MENSAGENS DE ERRO --}}
-                @if(session('erro'))
-                    <div class="alert alert-danger">{{ session('erro') }}</div>
-                @endif
-
-                {{-- MENSAGEM DE SUCESSO --}}
-                @if(session('sucesso'))
-                    <div class="alert alert-success">{{ session('sucesso') }}</div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $erro)
+                                <li>{{ $erro }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
 
                 <form action="{{ route('salvar.reserva') }}" method="POST">
